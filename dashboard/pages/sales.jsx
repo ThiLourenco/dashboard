@@ -1,9 +1,11 @@
 import Heading from "src/UI/Heading/Heading";
+import GridChart from "src/components/GridChart/GridChart";
 
 const Sales = () => {
   return (
     <section>
-      <Heading title='Vendas' subtitle='Minhas vendas' />
+      <Heading title='Sales' subtitle='Histórico de vendas' />
+      <GridChart />
     </section>
   )
 }
