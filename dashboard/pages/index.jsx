@@ -1,13 +1,35 @@
 import Link from "next/link";
 import client from "src/sanity";
+import { useDispatch } from "react-redux";
+import { useEffect } from 'react';
+
 import Heading from "src/UI/Heading/Heading";
 import Cards from "src/components/Card/Cards";
 import SalesGoal from "src/components/SalesGoal/SalesGoal";
 import SalesHistory from "src/components/SalesHistory/SalesHistory";
 import TopSales from "src/components/TopSales/TopSales";
 import styles from "styles/Dashboard.module.scss";
+import { 
+  createOrdersWithProduct, 
+  populateOrders, 
+  populateProducts, 
+  populateSales } 
+from "src/store/dashboard-slice";
+import { setConfig } from "src/store/ui-slice";
 
 export default function Home({ orders, products, config }) {
+  // hook for handler reducers functions
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(populateOrders(orders));
+    dispatch(populateProducts(products));
+    dispatch(createOrdersWithProduct());
+    dispatch(populateSales());
+    dispatch(setConfig(config));
+  }, []);
+
+
   return (
     <section className={styles.dashboard}>
       <Heading 
@@ -35,7 +57,7 @@ export default function Home({ orders, products, config }) {
 export const getStaticProps = async () => {
   const orders = await client.fetch('*[_type == "orders"]');
   const products = await client.fetch('*[_type == "products"]');
-  const config = await client.fetch('*[_type == "config"]');
+  const config = await client.fetch('*[_type == "config"][0]');
 
   return {
     props: {

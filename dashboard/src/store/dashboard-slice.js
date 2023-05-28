@@ -31,18 +31,18 @@ const dashboardSlice = createSlice({
   name: 'dashboard',
   initialState,
   reducers: {
-    populateOrders: (state, {payload}) => {
+    populateOrders: (state, { payload }) => {
       const today = new Date().toLocaleDateString(); // 28-05-2023
       const todayOrders = 
         payload?.filter(
-          order => new Date(order.date).toLocaleDateString === today
+          (order) => new Date(order.date).toLocaleDateString === today
         ) || [];
       
       state.orders.list = payload;    
       state.orders.today = todayOrders;
     },
 
-    populateProducts: (state, {payload}) => {
+    populateProducts: (state, { payload }) => {
       const products = payload ? [...payload] : [];
       const topProducts = 
         products?.sort((a,b) => b.orders - a.orders).slice(0, 3) || [];
@@ -58,11 +58,12 @@ const dashboardSlice = createSlice({
       const ordersWithProducts = 
         orders?.map((order) => {
           const product = findProduct(products, order);
+
           return {
             ...order,
             date: new Date(order.date),
             product: product.name,
-            amount: product.price = order.amount,
+            amount: product.price * order.amount,
           };
       }) || [];
 
