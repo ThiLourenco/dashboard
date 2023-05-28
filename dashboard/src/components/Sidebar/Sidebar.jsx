@@ -12,16 +12,19 @@ import { useRouter } from 'next/router';
 
 // create links static
 const links =[
-  { name: 'painel', icon: <MdOutlineDashboardCustomize /> , url: '/'},
-  { name: 'produtos', icon: <MdOutlineShoppingBag />, url: '/products'},
-  { name: 'vendas', icon: <MdAttachMoney />, url: '/sales'},
-  { name: 'relatório', icon: <MdInsertChartOutlined />, url: '/report'},
-  { name: 'configurações', icon: <MdOutlineSettings />, url: '/settings'},
+  { name: 'Painel', icon: <MdOutlineDashboardCustomize /> , url: '/'},
+  { name: 'Produtos', icon: <MdOutlineShoppingBag />, url: '/products'},
+  { name: 'Vendas', icon: <MdAttachMoney />, url: '/sales'},
+  { name: 'Relatório', icon: <MdInsertChartOutlined />, url: '/report'},
+  { name: 'Configurações', icon: <MdOutlineSettings />, url: '/settings'},
 ]
 
 const Sidebar = () => {
   const router = useRouter();
   let { route } = router; 
+
+  // conditions for new sale router
+  if (route === '/new-sale') route ='/';
 
   const renderLinks = links.map((link, i) => (
     <li key={i}>

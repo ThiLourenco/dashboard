@@ -2,7 +2,7 @@
 @import 'styles/mixins.scss';
 
 .sidebar {
-  background-color: $darkBlack;
+  background-color: $black;
   padding: 4rem 0;
   max-width: fit-content;
   position: fixed;
@@ -26,7 +26,8 @@
           text-decoration: none;
           font-size: 1rem;
           color: $white;
-          text-transform: uppercase;
+          text-transform: capitalize;
+          letter-spacing: 0.1rem;
           display: block;
           padding: 1.5rem 1rem;
 
