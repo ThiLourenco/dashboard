@@ -1,6 +1,6 @@
 import Head from 'next/head';
-import Sidebar from '../Sidebar/Sidebar';
 import styles from './Layout.module.scss'
+import Sidebar from 'src/components/Sidebar/Sidebar';
 
 const Layout = ({children}) => {
   return (
@@ -9,6 +9,7 @@ const Layout = ({children}) => {
       <title>Dashboard</title>
     </Head>
     <main className={styles.main}>
+      
       <Sidebar />
       <section className={styles.content}>{children}</section>
     </main>
