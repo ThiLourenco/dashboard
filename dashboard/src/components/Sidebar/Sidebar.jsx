@@ -23,8 +23,9 @@ const Sidebar = () => {
   const router = useRouter();
   let { route } = router; 
 
-  // conditions for new sale router
+  // conditions for router selected
   if (route === '/new-sale') route ='/';
+  if (route === '/products/add') route ='/products';
 
   const renderLinks = links.map((link, i) => (
     <li key={i}>
