@@ -10,6 +10,8 @@ const SalesGoal = () => {
   const todaySales = useFormatPrice(today);
   const formatSalesGoal = useFormatPrice(salesGoal);
 
+  const percentage = (today / salesGoal) * 100;
+
   return (
     <div className={styles['sales-goal']}>
       <h3>Meta de vendas diárias</h3>
@@ -18,7 +20,7 @@ const SalesGoal = () => {
           <AxesDirective>
             <AxisDirective>
               <PointersDirective>
-                <PointerDirective value={35}></PointerDirective>
+                <PointerDirective value={percentage}></PointerDirective>
               </PointersDirective>
             </AxisDirective>
           </AxesDirective>
