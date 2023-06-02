@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import styles from './SalesGoal.module.scss'
 import useFormatPrice from 'src/hooks/useFormatPrice';
-import { CircularGaugeComponent, AxesDirective, AxisDirective, PointersDirective, PointerDirective } from '@syncfusion/ej2-react-circulargauge';
+import { CircularGaugeComponent, AxesDirective, AxisDirective, PointersDirective, PointerDirective, RangesDirective, RangeDirective } from '@syncfusion/ej2-react-circulargauge';
 
 const SalesGoal = () => {
   const { today } = useSelector((state) => state.dashboard.sales);
@@ -16,15 +16,20 @@ const SalesGoal = () => {
     <div className={styles['sales-goal']}>
       <h3>Meta de vendas diárias</h3>
       <div className={styles.chart}>
-        <CircularGaugeComponent >
+        {today !== null ? (
+        <CircularGaugeComponent id="salesgoal" height="250">
           <AxesDirective>
             <AxisDirective>
               <PointersDirective>
                 <PointerDirective value={percentage}></PointerDirective>
               </PointersDirective>
+              <RangesDirective>
+                <RangeDirective start={80} end={100}></RangeDirective>
+              </RangesDirective>
             </AxisDirective>
           </AxesDirective>
         </CircularGaugeComponent>
+        ) : <span>Carregando...</span>}
       </div> 
       <h4>
         {todaySales} / {formatSalesGoal}
