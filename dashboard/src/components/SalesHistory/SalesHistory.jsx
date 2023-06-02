@@ -1,4 +1,3 @@
-import styles from './SalesHistory.module.scss';
 import { Category, ChartComponent, ColumnSeries, DataLabel, Inject, Legend, LineSeries, SeriesCollectionDirective, SeriesDirective, Tooltip } from '@syncfusion/ej2-react-charts';
 
 const data = [
@@ -9,6 +8,12 @@ const data = [
   { month: 'Sep', sales: 38 }, { month: 'Oct', sales: 30 },
   { month: 'Nov', sales: 25 }, { month: 'Dec', sales: 32 }
 ];
+
+const marker = { 
+  dataLabel: { 
+    visible: true 
+  } 
+};
 
 const SalesHistory = () => {
   return (
@@ -36,6 +41,7 @@ const SalesHistory = () => {
           xName='month' 
           yName='sales' 
           name='Vendas' 
+          marker={marker}
         />
       </SeriesCollectionDirective>
     </ChartComponent>
