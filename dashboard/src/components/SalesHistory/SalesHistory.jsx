@@ -1,7 +1,6 @@
 import { Category, ChartComponent, ColumnSeries, DataLabel, Inject, Legend, LineSeries, SeriesCollectionDirective, SeriesDirective, Tooltip } from '@syncfusion/ej2-react-charts';
 import { useSelector } from 'react-redux';
 import useGetMonths from 'src/hooks/useGetMonths';
-import useFormatPrice from 'src/hooks/useFormatPrice';
 
 const SalesHistory = () => {
   const { merged } = useSelector(state => state.dashboard.orders);
@@ -24,7 +23,7 @@ const SalesHistory = () => {
     // para cada valor, pegue o valor acumulado e some com o valor atual, iniciando com 0
     .reduce((acc, curr) => acc + curr, 0));
 
-  // retorna o mes e as vendas dos últimos 6 meses
+  // retorna o mês e as vendas dos últimos 6 meses
   const data = months.map((month, i) => ({ month, sales: sales[i] })).slice(-6);
   console.log(data);
 
