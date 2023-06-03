@@ -29,7 +29,9 @@ const SalesGoal = () => {
             </AxisDirective>
           </AxesDirective>
         </CircularGaugeComponent>
-        ) : <span>Carregando...</span>}
+        ) : ( 
+        <span>Carregando...</span>
+        )}
       </div> 
       <h4>
         {todaySales} / {formatSalesGoal}
