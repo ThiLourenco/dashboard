@@ -1,5 +1,26 @@
-import { Category, ChartComponent, ColumnSeries, DataLabel, Inject, Legend, LineSeries, SeriesCollectionDirective, SeriesDirective, Tooltip } from '@syncfusion/ej2-react-charts';
 import { useSelector } from 'react-redux';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Filler,
+  Legend
+);
 import useGetMonths from 'src/hooks/useGetMonths';
 
 const SalesHistory = () => {
@@ -14,52 +35,59 @@ const SalesHistory = () => {
       .map((order) => getMonth(order.date))
     )
   ];
-  
-  const sales = months
-  // percorre cada mês e para cada mês encontrado, filtre pelas orders, onde o mês seja igual 
-    .map((month) => ordersWithProduct.filter((order) => getMonth(order.date) === month)
-    // ao localizar, percorre cada array de order e retornar o valor de cada ordem
-    .map((order) => order.amount)
-    // para cada valor, pegue o valor acumulado e some com o valor atual, iniciando com 0
-    .reduce((acc, curr) => acc + curr, 0));
 
-  // retorna o mês e as vendas dos últimos 6 meses
-  const data = months.map((month, i) => ({ month, sales: sales[i] })).slice(-6);
-  console.log(data);
+  const sales = months
+    .map((month) =>
+      ordersWithProduct
+        .filter((order) => getMonth(order.date) === month)
+        .reduce((acc, curr) => acc + curr.amount, 0)
+    );
+
+  const data = {
+    labels: months.slice(-6),
+    datasets: [
+      {
+        label: 'Mensal',
+        backgroundColor: 'rgba(75,192,192,0.4)',
+        borderColor: 'rgba(75,192,192,1)',
+        borderWidth: 1,
+        hoverBackgroundColor: 'rgba(75,192,192,0.6)',
+        hoverBorderColor: 'rgba(75,192,192,1)',
+        data: sales.slice(-6)
+      }
+    ]
+  };
+
+  const options = {
+    responsive: true,
+  plugins: {
+    legend: {
+      position: 'top',
+    },
+    title: {
+      display: true,
+      text: 'Vendas',
+    },
+  },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback: (value) => `R$ ${value}`
+        }
+      }
+    }
+  };
 
   return (
     <div>
-      {data.length > 0 ? (
-    <ChartComponent 
-      id="charts" 
-      primaryXAxis={{ valueType: 'Category' }} 
-      legendSettings={{ visiable: true }} 
-      tooltip={{ enable: true }}
-      primaryYAxis={{ labelFormat: 'R$ {value}' }}
-    >
-      <Inject 
-        services={[
-          ColumnSeries, 
-          DataLabel, 
-          Tooltip, 
-          Legend, 
-          LineSeries, 
-          Category
-        ]}
-      />
-      <SeriesCollectionDirective>
-        <SeriesDirective 
-          dataSource={data} 
-          xName='month' 
-          yName='sales' 
-          name='Vendas' 
-          marker={{dataLabel: { visible: true } }}
-        />
-      </SeriesCollectionDirective>
-    </ChartComponent>
-    ) : <span>Carregando...</span>}
+      {data.labels.length > 0 ? (
+        <Line data={data} options={options} />
+      ) : (
+        <span>Carregando...</span>
+      )}
     </div>
   );
 };
 
-export default SalesHistory
+export default SalesHistory;

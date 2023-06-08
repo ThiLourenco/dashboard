@@ -1,7 +1,25 @@
 import { useSelector } from 'react-redux';
 import styles from './SalesGoal.module.scss'
 import useFormatPrice from 'src/hooks/useFormatPrice';
-import { CircularGaugeComponent, AxesDirective, AxisDirective, PointersDirective, PointerDirective, RangesDirective, RangeDirective } from '@syncfusion/ej2-react-circulargauge';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const SalesGoal = () => {
   const { today } = useSelector((state) => state.dashboard.sales);
@@ -12,23 +30,41 @@ const SalesGoal = () => {
 
   const percentage = (today / salesGoal) * 100;
 
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+      }
+    },
+  };
+
+  const data = {
+    labels: ['%'],
+    datasets: [
+      {
+        label: ['Meta'],
+        data: [salesGoal],
+        backgroundColor: [
+          'rgba(76, 219, 19, 0.822)'
+        ],
+      },
+      {
+        label: ['Vendas'],
+        data: [percentage],
+        backgroundColor: [
+          'rgba(39, 136, 201, 0.400)'
+        ],
+      },
+    ],
+  }
+
   return (
     <div className={styles['sales-goal']}>
       <h3>Meta de vendas diárias</h3>
       <div className={styles.chart}>
         {today !== null ? (
-        <CircularGaugeComponent id="salesgoal" height="250">
-          <AxesDirective>
-            <AxisDirective>
-              <PointersDirective>
-                <PointerDirective value={percentage}></PointerDirective>
-              </PointersDirective>
-              <RangesDirective>
-                <RangeDirective start={80} end={100}></RangeDirective>
-              </RangesDirective>
-            </AxisDirective>
-          </AxesDirective>
-        </CircularGaugeComponent>
+          <Bar options={options} data={data}  />
         ) : ( 
         <span>Carregando...</span>
         )}
