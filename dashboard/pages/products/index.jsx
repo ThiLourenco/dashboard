@@ -10,7 +10,7 @@ const columns = [
     headerText: 'Image',
     width: '120',
     textAlign: 'center',
-    template: '<img />',
+    template: '<img class="grid-image"/>',
   },
   {
     field: 'name', headerText: 'Nome', width: '200'
@@ -27,6 +27,7 @@ const Products = () => {
   const { list: products } = useSelector((state) => state.dashboard.products);
 
   const getImage = useImage();
+  
   const data = products?.map((product) => ({
     ...product,
     image: getImage(product.image).url(),
