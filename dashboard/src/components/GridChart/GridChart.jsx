@@ -15,17 +15,17 @@ const GridChart = ({ columns, data }) => {
         <Cell dataKey="avatar" />
       </Column>
 
-      <Column width={300} sortable resizable >
+      <Column width={480} resizable sortType >
         <HeaderCell>Nome</HeaderCell>
         <Cell dataKey="name" />
       </Column>
 
-      <Column width={150} sortable resizable>
+      <Column width={200} sortable resizable>
         <HeaderCell>Preço</HeaderCell>
         <Cell dataKey="price" />
       </Column>
 
-      <Column width={100} sortable resizable>
+      <Column width={300} sortable resizable>
         <HeaderCell>Pedidos</HeaderCell>
         <Cell dataKey="orders" />
       </Column>
